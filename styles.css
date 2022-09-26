@@ -1,0 +1,16 @@
+#player {
+    border: 1em solid black;
+    border-radius: 50%;
+    height:30px;
+    width: 30px;
+}
+
+#board {
+    border: 20px solid black;
+    height: 500px;
+    width: 500px;
+}
+
+div {
+    border: 1px solid black;
+}
