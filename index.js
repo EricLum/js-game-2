@@ -11,6 +11,9 @@ const initBoard = () => {
 
 const initPlayer = () => {
     const player = new Player()
+//   const player = document.getElementById("player");
+//   withMovement(player);
+  // paste("board", player)
 };
 
 const paste = (parentElementId = "main", element) => {
@@ -24,6 +27,45 @@ const paste = (parentElementId = "main", element) => {
 };
 
 
+const onKeyPress = (e, element) => {
+  const code = e.keyCode;
+
+  const LEFT = "left";
+  const RIGHT = "right";
+  const UP = "up";
+  const DOWN = "down";
+  const MAP_ARROW_KEY_CODE_TO_DIR = {
+    37: LEFT,
+    38: UP,
+    39: RIGHT,
+    83: RIGHT,
+    40: DOWN,
+  };
+  const direction = Object.keys(MAP_ARROW_KEY_CODE_TO_DIR).includes(
+    code.toString()
+  )
+    ? MAP_ARROW_KEY_CODE_TO_DIR[code]
+    : null;
+
+  if (direction) {
+    const p = getElement("player");
+    switch (direction) {
+      case RIGHT:
+        p.style.left = getPixels(p.style.left) + 50 + "px";
+        break;
+      case LEFT:
+        p.style.left = getPixels(p.style.left) + -50 + "px";
+        break;
+      case UP:
+        p.style.top = getPixels(p.style.top) + -50 + "px";
+        break;
+      case DOWN:
+        p.style.top = getPixels(p.style.top) + 50 + "px";
+        break;
+    }
+  }
+};
+
 const getPixels = (s) => {
   const res = parseInt(s.split("px")[0]);
   return res || 0;
@@ -34,14 +76,15 @@ const getElement = (id) => document.getElementById(id);
 class Player {
   constructor() {
     this.id = "player";
-    this.x = getPixels(getElement(this.id).style.left);
-    this.y = getPixels(getElement(this.id).style.top);
+    this.x = getPixels(getElement(this.id).style.left) || 30;
+    this.y = getPixels(getElement(this.id).style.top) || 30;
     this.baseMovementUnit = 30;
-    window.addEventListener("keydown", (e) => onKeyPress(e, getElement(this.id)));
+    window.addEventListener("keydown", (e) => this.handleMovement(e, getElement(this.id)));
   }
 
-  handleMovement = () => {
+  handleMovement = (e) => {
     const code = e.keyCode;
+
     const LEFT = "left";
     const RIGHT = "right";
     const UP = "up";
@@ -78,18 +121,19 @@ class Player {
   };
 
   moveX = (dir) => {
-    this.x = getPixels(p.style.left) + dir + "px";
+    this.x = this.x + dir
     this.setPosition();
   };
 
   moveY = (dir) => {
-    this.y = getPixels(p.style.top) + dir + "px";
+    this.y = this.y + dir
     this.setPosition();
   };
 
   setPosition = () => {
     const element = getElement(this.id);
-    element.style.left = this.x;
-    element.style.top = this.y;
+    element.style.left = this.x + 'px';
+    element.style.top = this.y + 'px';
+    console.log(element.style)
   };
 }
