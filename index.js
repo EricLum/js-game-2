@@ -32,11 +32,11 @@ class Player {
     this.id = "player";
     this.x = getPixels(getElement(this.id).style.left) || 30;
     this.y = getPixels(getElement(this.id).style.top) || 30;
-    this.baseMovementUnit = 1;
+    this.baseMovementUnit = 3;
     window.addEventListener("keydown", (e) =>
       this.handleMovement(e, getElement(this.id))
     );
-    this.interval = setInterval(this.setPosition2,16)
+    this.interval = setInterval(this.setPosition2,10)
   }
 
   handleMovement = (e) => {
