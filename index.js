@@ -32,10 +32,11 @@ class Player {
     this.id = "player";
     this.x = getPixels(getElement(this.id).style.left) || 30;
     this.y = getPixels(getElement(this.id).style.top) || 30;
-    this.baseMovementUnit = 30;
+    this.baseMovementUnit = 1;
     window.addEventListener("keydown", (e) =>
       this.handleMovement(e, getElement(this.id))
     );
+    this.interval = setInterval(this.setPosition2,16)
   }
 
   handleMovement = (e) => {
@@ -90,6 +91,14 @@ class Player {
     const element = getElement(this.id);
     element.style.left = this.x + "px";
     element.style.top = this.y + "px";
-    console.log(element.style);
+    
   };
+
+  setPosition2 = () => {
+    const element = getElement(this.id);
+    this.x = this.x + this.baseMovementUnit * Math.random() - this.baseMovementUnit * Math.random() + .1
+    this.y = this.y + this.baseMovementUnit * Math.random() - this.baseMovementUnit * Math.random() + .1
+    element.style.left = this.x  + "px";
+    element.style.top = this.y + "px";
+  }
 }
