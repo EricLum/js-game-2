@@ -33,8 +33,8 @@ class Player {
     this.x = getPixels(getElement(this.id).style.left) || 30;
     this.y = getPixels(getElement(this.id).style.top) || 30;
     // Vectors for doing rates of change.
-    this.dx = 1
-    this.dy = 0
+    this.dx = 1;
+    this.dy = 0;
     this.baseMovementUnit = 3;
     // Adds event listener for base player movement
     window.addEventListener("keydown", (e) =>
@@ -105,16 +105,16 @@ class Player {
     if (direction) {
       switch (direction) {
         case RIGHT:
-          this.dx = 1;
+          this.dx = this.dx + 1;
           break;
         case LEFT:
-          this.dx = -1
+          this.dx = this.dx - 1;
           break;
         case UP:
-          this.dy = -1;
+          this.dy = this.dy -1;
           break;
         case DOWN:
-          this.dy = 1;
+          this.dy = this.dy + 1;
           break;
       }
     }
@@ -141,18 +141,17 @@ class Player {
     element.style.top = this.y + "px";
   };
 
-  
-
   // Illustrates some "floaty" behavior you can use
   hockey = () => {
     const element = getElement(this.id);
     // The .1's here gradually float the player towards bottom right of screen. It could be fun to simulate attraction or repulsion using equations like this.
-    this.x =
-      this.x + this.dx
-    this.y = this.y + this.dy
+    this.x = this.x + this.dx;
+    this.y = this.y + this.dy;
 
-    this.dx = this.dx > 0 ? Math.max(this.dx-.01, 0) : Math.min(this.dx + .01, 0)
-    this.dy = this.dy > 0 ? Math.max(this.dy-.01, 0) : Math.min(this.dy + .01, 0)
+    this.dx =
+      this.dx > 0 ? Math.max(this.dx - 0.01, 0) : Math.min(this.dx + 0.01, 0);
+    this.dy =
+      this.dy > 0 ? Math.max(this.dy - 0.01, 0) : Math.min(this.dy + 0.01, 0);
     element.style.left = this.x + "px";
     element.style.top = this.y + "px";
   };
