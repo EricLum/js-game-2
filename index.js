@@ -35,7 +35,7 @@ class Player {
     // Vectors for doing rates of change.
     this.dx = 1;
     this.dy = 0;
-    this.baseMovementUnit = 3;
+    this.baseMovementUnit = 2;
     // Adds event listener for base player movement
     window.addEventListener("keydown", (e) =>
       this.handleHockeyMovement(e, getElement(this.id))
@@ -84,7 +84,6 @@ class Player {
 
   handleHockeyMovement = (e) => {
     const code = e.keyCode;
-
     const LEFT = "left";
     const RIGHT = "right";
     const UP = "up";
@@ -105,16 +104,16 @@ class Player {
     if (direction) {
       switch (direction) {
         case RIGHT:
-          this.dx = this.dx + 1;
+          this.dx = this.dx + this.baseMovementUnit;
           break;
         case LEFT:
-          this.dx = this.dx - 1;
+          this.dx = this.dx - this.baseMovementUnit;
           break;
         case UP:
-          this.dy = this.dy -1;
+          this.dy = this.dy -this.baseMovementUnit;
           break;
         case DOWN:
-          this.dy = this.dy + 1;
+          this.dy = this.dy + this.baseMovementUnit;
           break;
       }
     }
@@ -143,33 +142,19 @@ class Player {
 
   // Illustrates some "floaty" behavior you can use
   hockey = () => {
+    const floatingResistance = 0.007;
     const element = getElement(this.id);
-    // The .1's here gradually float the player towards bottom right of screen. It could be fun to simulate attraction or repulsion using equations like this.
     this.x = this.x + this.dx;
     this.y = this.y + this.dy;
 
+
     this.dx =
-      this.dx > 0 ? Math.max(this.dx - 0.01, 0) : Math.min(this.dx + 0.01, 0);
+      this.dx > 0 ? Math.max(this.dx - floatingResistance, 0) : Math.min(this.dx + floatingResistance, 0);
     this.dy =
-      this.dy > 0 ? Math.max(this.dy - 0.01, 0) : Math.min(this.dy + 0.01, 0);
+      this.dy > 0 ? Math.max(this.dy - floatingResistance, 0) : Math.min(this.dy + floatingResistance, 0);
     element.style.left = this.x + "px";
     element.style.top = this.y + "px";
   };
 
-  jitterFloat = () => {
-    const element = getElement(this.id);
-    // The .1's here gradually float the player towards bottom right of screen. It could be fun to simulate attraction or repulsion using equations like this.
-    this.x =
-      this.x +
-      this.baseMovementUnit * Math.random() -
-      this.baseMovementUnit * Math.random() +
-      0.1;
-    this.y =
-      this.y +
-      this.baseMovementUnit * Math.random() -
-      this.baseMovementUnit * Math.random() +
-      0.1;
-    element.style.left = this.x + "px";
-    element.style.top = this.y + "px";
-  };
+
 }
