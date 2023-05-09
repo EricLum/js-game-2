@@ -4,9 +4,6 @@ window.addEventListener("load", () => {
 });
 
 const initBoard = () => {
-  //   const board = document.createElement("div");
-  //   board.id = "board";
-  //   paste("main", board);
   const player = new Player();
 };
 
@@ -33,14 +30,14 @@ class Player {
     this.x = getPixels(getElement(this.id).style.left) || 30;
     this.y = getPixels(getElement(this.id).style.top) || 30;
     // Vectors for doing rates of change.
-    this.dx = 1;
+    this.dx = 10;
     this.dy = 0;
     this.baseMovementUnit = 2;
     // Adds event listener for base player movement
     window.addEventListener("keydown", (e) =>
-      this.handleHockeyMovement(e, getElement(this.id))
+      this.handleMovement(e, getElement(this.id))
     );
-    this.interval = setInterval(this.hockey, 10);
+    this.interval = setInterval(()=>this.doit(100),10);
   }
 
   // Original movement code
@@ -141,8 +138,9 @@ class Player {
   };
 
   // Illustrates some "floaty" behavior you can use
-  hockey = () => {
-    const floatingResistance = 0.007;
+  hockey = (arg) => {
+
+    const floatingResistance = 0.1;
     const element = getElement(this.id);
     this.x = this.x + this.dx;
     this.y = this.y + this.dy;
@@ -154,7 +152,30 @@ class Player {
       this.dy > 0 ? Math.max(this.dy - floatingResistance, 0) : Math.min(this.dy + floatingResistance, 0);
     element.style.left = this.x + "px";
     element.style.top = this.y + "px";
+   
+    // handle cleanup of interval 
+    if (this.dx <= .001 && this.dy <= .001 ){
+      if (this.interval >= 1){
+    } else {
+    }
+
+    }
   };
+
+  doit = (count) => {
+    if (count > 0){
+      let x = Math.random()
+      let y = Math.random()
+
+      this.moveX(x > .5 ? -1 * Math.random() : Math.random())
+      this.moveY(y > .5 ? -1 * Math.random() : Math.random())
+      setTimeout( ()=>this.doit(count-1), 100)
+    }
+    else {
+      clearInterval(this.interval)
+      console.log('cleared')
+    }
+  }
 
 
 }
